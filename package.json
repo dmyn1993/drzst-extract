@@ -1,0 +1,97 @@
+{
+  "name": "drzst-extract",
+  "displayName": "DRZST Extractor",
+  "description": "一键解压 .drzst (zstd) 文件，无需额外安装 7-Zip，跨平台开箱即用。",
+  "version": "2.0.0",
+  "publisher": "dmyn1993",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "keywords": [
+    "drzst",
+    "zstd",
+    "zstandard",
+    "extract",
+    "decompress"
+  ],
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "drzst-extract.extractToCurrent",
+        "title": "解压到当前位置"
+      },
+      {
+        "command": "drzst-extract.extractToSameDir",
+        "title": "解压到同名文件夹"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "drzst-extract.extractToCurrent",
+          "when": "resourceExtname == .drzst",
+          "group": "7_modification"
+        },
+        {
+          "command": "drzst-extract.extractToSameDir",
+          "when": "resourceExtname == .drzst",
+          "group": "7_modification"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "DRZST Extractor",
+      "properties": {
+        "drzst-extract.deleteSource": {
+          "type": "boolean",
+          "default": true,
+          "description": "解压成功后是否删除源 .drzst 文件。"
+        },
+        "drzst-extract.overwriteMode": {
+          "type": "string",
+          "default": "overwrite",
+          "enum": [
+            "overwrite",
+            "rename",
+            "skip"
+          ],
+          "enumDescriptions": [
+            "覆盖已存在的文件/文件夹",
+            "自动重命名新文件/文件夹，保留旧文件",
+            "跳过已存在的文件/文件夹，不覆盖"
+          ],
+          "description": "当目标位置存在同名文件或文件夹时的处理方式。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^18.19.130",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "7z-wasm": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dmyn1993/drzst-extract.git"
+  }
+}
