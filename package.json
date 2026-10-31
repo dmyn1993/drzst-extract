@@ -1,40 +1,32 @@
 {
   "name": "drzst-extract",
   "displayName": "DRZST Extractor",
-  "description": "一键解压 .drzst (zstd) 文件，无需额外安装 7-Zip，跨平台开箱即用。",
-  "version": "2.0.0",
+  "description": "一键解压 .drzst (zstd) 与 .zip 文件，无需额外安装 7-Zip，跨平台开箱即用。",
+  "version": "2.2.0",
   "publisher": "dmyn1993",
   "icon": "icon.png",
   "galleryBanner": {
     "color": "#1e1e1e",
     "theme": "dark"
   },
-  "keywords": [
-    "drzst",
-    "zstd",
-    "zstandard",
-    "extract",
-    "decompress"
-  ],
+  "keywords": ["drzst", "zstd", "zstandard", "zip", "extract", "decompress"],
   "license": "MIT",
   "engines": {
     "vscode": "^1.80.0"
   },
-  "categories": [
-    "Other"
-  ],
+  "categories": ["Other"],
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "drzst-extract.extractToCurrent",
-        "title": "解压到当前位置"
-      },
-      {
-        "command": "drzst-extract.extractToSameDir",
-        "title": "解压到同名文件夹"
-      }
+      { "command": "drzst-extract.extractToCurrent", "title": "解压到当前位置" },
+      { "command": "drzst-extract.extractToSameDir", "title": "解压到同名文件夹" },
+      { "command": "drzst-extract.extractZipToCurrent", "title": "解压到当前位置" },
+      { "command": "drzst-extract.extractZipToSameDir", "title": "解压到同名文件夹" },
+      { "command": "drzst-extract.batchExtractToCurrent", "title": "批量解压drzst到当前位置" },
+      { "command": "drzst-extract.batchExtractToSameDir", "title": "批量解压drzst到同名文件夹" },
+      { "command": "drzst-extract.batchExtractZipToCurrent", "title": "批量解压zip到当前位置" },
+      { "command": "drzst-extract.batchExtractZipToSameDir", "title": "批量解压zip到同名文件夹" }
     ],
     "menus": {
       "explorer/context": [
@@ -47,6 +39,36 @@
           "command": "drzst-extract.extractToSameDir",
           "when": "resourceExtname == .drzst",
           "group": "7_modification"
+        },
+        {
+          "command": "drzst-extract.extractZipToCurrent",
+          "when": "resourceExtname == .zip",
+          "group": "7_modification"
+        },
+        {
+          "command": "drzst-extract.extractZipToSameDir",
+          "when": "resourceExtname == .zip",
+          "group": "7_modification"
+        },
+        {
+          "command": "drzst-extract.batchExtractToCurrent",
+          "when": "explorerResourceIsFolder && config.drzst-extract.enableBatchExtract",
+          "group": "7_modification"
+        },
+        {
+          "command": "drzst-extract.batchExtractToSameDir",
+          "when": "explorerResourceIsFolder && config.drzst-extract.enableBatchExtract",
+          "group": "7_modification"
+        },
+        {
+          "command": "drzst-extract.batchExtractZipToCurrent",
+          "when": "explorerResourceIsFolder && config.drzst-extract.enableBatchExtract",
+          "group": "7_modification"
+        },
+        {
+          "command": "drzst-extract.batchExtractZipToSameDir",
+          "when": "explorerResourceIsFolder && config.drzst-extract.enableBatchExtract",
+          "group": "7_modification"
         }
       ]
     },
@@ -56,22 +78,23 @@
         "drzst-extract.deleteSource": {
           "type": "boolean",
           "default": true,
-          "description": "解压成功后是否删除源 .drzst 文件。"
+          "description": "解压成功后是否删除源 .drzst / .zip 文件。"
         },
         "drzst-extract.overwriteMode": {
           "type": "string",
           "default": "overwrite",
-          "enum": [
-            "overwrite",
-            "rename",
-            "skip"
-          ],
+          "enum": ["overwrite", "rename", "skip"],
           "enumDescriptions": [
             "覆盖已存在的文件/文件夹",
             "自动重命名新文件/文件夹，保留旧文件",
             "跳过已存在的文件/文件夹，不覆盖"
           ],
           "description": "当目标位置存在同名文件或文件夹时的处理方式。"
+        },
+        "drzst-extract.enableBatchExtract": {
+          "type": "boolean",
+          "default": true,
+          "description": "在文件夹右键菜单中显示批量解压选项（drzst 与 zip 共用）。"
         }
       }
     }
